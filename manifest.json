@@ -1,7 +1,7 @@
 {
   "name": "Marco Médium",
   "short_name": "Marco Médium",
-  "description": "Voyance, Guidance & Écriture automatique",
+  "description": "Voyance, Guidance &amp; Écriture automatique",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#080612",
@@ -9,15 +9,9 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://sprightly-douhua-60169f.netlify.app/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://sprightly-douhua-60169f.netlify.app/icon-512.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%23080612'/%3E%3Cellipse cx='256' cy='256' rx='220' ry='80' fill='none' stroke='%23c9a84c' stroke-width='6'/%3E%3Ccircle cx='256' cy='256' r='70' fill='%236030a0'/%3E%3Ccircle cx='256' cy='256' r='30' fill='%23050210'/%3E%3Ccircle cx='240' cy='240' r='12' fill='rgba(255,255,255,0.6)'/%3E%3Cpath d='M256,140 L260,156 L276,160 L260,164 L256,180 L252,164 L236,160 L252,156 Z' fill='%23e8c935'/%3E%3C/svg%3E",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ]
