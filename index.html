@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Marco Médium</title>
+<meta name="theme-color" content="#080612"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Marco Médium"/>
+<script>
+// Inject manifest dynamically
+const manifest = {
+  name: "Marco Médium",
+  short_name: "Marco Médium",
+  description: "Voyance, Guidance & Écriture automatique",
+  start_url: "/",
+  display: "standalone",
+  background_color: "#080612",
+  theme_color: "#080612",
+  orientation: "portrait",
+  icons: [{
+    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%23080612'/%3E%3Cellipse cx='256' cy='256' rx='220' ry='80' fill='none' stroke='%23c9a84c' stroke-width='6'/%3E%3Ccircle cx='256' cy='256' r='70' fill='%236030a0'/%3E%3Ccircle cx='256' cy='256' r='30' fill='%23050210'/%3E%3Ccircle cx='240' cy='240' r='12' fill='rgba(255,255,255,0.6)'/%3E%3Cpath d='M256,140 L260,156 L276,160 L260,164 L256,180 L252,164 L236,160 L252,156 Z' fill='%23e8c935'/%3E%3C/svg%3E",
+    sizes: "512x512",
+    type: "image/svg+xml",
+    purpose: "any maskable"
+  }]
+};
+const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+const url = URL.createObjectURL(blob);
+const link = document.createElement('link');
+link.rel = 'manifest';
+link.href = url;
+document.head.appendChild(link);
+
+// Apple touch icon
+const appleIcon = document.createElement('link');
+appleIcon.rel = 'apple-touch-icon';
+appleIcon.href = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%23080612'/%3E%3Cellipse cx='256' cy='256' rx='220' ry='80' fill='none' stroke='%23c9a84c' stroke-width='6'/%3E%3Ccircle cx='256' cy='256' r='70' fill='%236030a0'/%3E%3Ccircle cx='256' cy='256' r='30' fill='%23050210'/%3E%3Ccircle cx='240' cy='240' r='12' fill='rgba(255,255,255,0.6)'/%3E%3Cpath d='M256,140 L260,156 L276,160 L260,164 L256,180 L252,164 L236,160 L252,156 Z' fill='%23e8c935'/%3E%3C/svg%3E";
+document.head.appendChild(appleIcon);
+</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+:root{
+  --gold:#c9a84c;--gold-light:#f0d070;--gold-dim:#8a6010;
+  --neon:#a855f7;--neon2:#7c3aed;--neon3:#06b6d4;
+  --dark:#080612;--dark2:#0e0a1e;--dark3:#160d2e;
+  --glass:rgba(255,255,255,0.04);--glass2:rgba(168,85,247,0.08);
+  --text:#f0e8ff;--text-muted:#9d8fbe;
+  --border:rgba(168,85,247,0.2);--border-gold:rgba(201,168,76,0.3);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{min-height:100%;background:var(--dark);}
+body{font-family:'Inter',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;min-height:-webkit-fill-available;overflow-x:hidden;}
+
+/* ── BACKGROUND ── */
+.bg-gradient{position:fixed;inset:0;z-index:0;
+  background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(124,58,237,0.4) 0%,transparent 70%),
+  radial-gradient(ellipse 50% 40% at 100% 50%,rgba(168,85,247,0.15) 0%,transparent 60%),
+  radial-gradient(ellipse 40% 50% at 0% 80%,rgba(6,182,212,0.1) 0%,transparent 60%),
+  var(--dark);}
+.bg-grid{position:fixed;inset:0;z-index:0;opacity:0.03;
+  background-image:linear-gradient(rgba(168,85,247,1) 1px,transparent 1px),linear-gradient(90deg,rgba(168,85,247,1) 1px,transparent 1px);
+  background-size:60px 60px;}
+.particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.particle{position:absolute;border-radius:50%;animation:float var(--d) ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0) scale(1);opacity:0.4}50%{transform:translateY(-30px) scale(1.2);opacity:1}}
+
+/* ── LAYOUT ── */
+.container{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 20px 60px;}
+
+/* ── HEADER ── */
+header{text-align:center;padding:50px 20px 20px;position:relative;z-index:1;}
+.logo-glow{position:relative;display:inline-block;margin-bottom:10px;}
+.logo-glow::before{content:'';position:absolute;inset:-40px;background:radial-gradient(circle,rgba(168,85,247,0.4) 0%,transparent 70%);filter:blur(20px);z-index:0;}
+.logo-svg-wrap{position:relative;z-index:1;width:min(400px,88vw);height:min(155px,33vw);display:flex;align-items:center;justify-content:center;}
+.logo-svg{width:100%;height:100%;overflow:visible;}
+.tagline{font-size:0.72rem;letter-spacing:6px;color:var(--text-muted);text-transform:uppercase;margin-top:4px;}
+
+/* ── DIVIDER ── */
+.divider{display:flex;align-items:center;gap:12px;margin:20px auto;width:min(300px,80vw);}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(168,85,247,0.5),transparent);}
+.divider span{color:var(--neon);font-size:0.7rem;opacity:0.7;}
+
+/* ── STATUS ── */
+.status-wrap{display:flex;justify-content:center;margin-bottom:6px;position:relative;z-index:1;}
+.status-btn{display:inline-flex;align-items:center;gap:10px;padding:10px 28px;border-radius:50px;font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:2px;cursor:pointer;border:none;transition:all 0.4s;text-transform:uppercase;position:relative;overflow:hidden;}
+.status-btn::before{content:'';position:absolute;inset:0;opacity:0.1;transition:opacity 0.3s;}
+.status-btn:hover::before{opacity:0.2;}
+.status-btn.available{background:linear-gradient(135deg,#065f46,#059669);color:#ecfdf5;box-shadow:0 0 30px rgba(5,150,105,0.4),0 0 60px rgba(5,150,105,0.15),inset 0 1px 0 rgba(255,255,255,0.1);}
+.status-btn.busy{background:linear-gradient(135deg,#7f1d1d,#dc2626);color:#fef2f2;box-shadow:0 0 30px rgba(220,38,38,0.4),0 0 60px rgba(220,38,38,0.15),inset 0 1px 0 rgba(255,255,255,0.1);}
+.status-dot{width:8px;height:8px;border-radius:50%;background:currentColor;animation:ping 2s cubic-bezier(0,0,0.2,1) infinite;}
+@keyframes ping{0%{transform:scale(1);opacity:1}75%,100%{transform:scale(2);opacity:0}}
+
+/* ── HERO ── */
+.hero{text-align:center;padding:10px 20px 40px;position:relative;z-index:1;}
+.hero h2{font-family:'Cinzel',serif;font-size:clamp(1.4rem,4vw,2rem);font-weight:400;background:linear-gradient(135deg,var(--gold-light),var(--gold),#fff8e1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}
+.hero p{color:var(--text-muted);font-size:0.9rem;line-height:1.8;max-width:500px;margin:0 auto;}
+
+/* ── TABS ── */
+.tabs{display:flex;justify-content:center;gap:4px;flex-wrap:wrap;margin-bottom:32px;position:relative;z-index:1;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:16px;padding:6px;width:fit-content;margin-left:auto;margin-right:auto;}
+.tab{padding:9px 18px;border:none;background:transparent;color:var(--text-muted);border-radius:10px;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.8rem;font-weight:500;letter-spacing:0.3px;transition:all 0.25s;}
+.tab:hover{color:var(--text);background:rgba(168,85,247,0.1);}
+.tab.active{background:linear-gradient(135deg,rgba(168,85,247,0.25),rgba(124,58,237,0.25));color:#fff;border:1px solid rgba(168,85,247,0.4);box-shadow:0 0 20px rgba(168,85,247,0.2);}
+
+/* ── PANELS ── */
+.panel{display:none;position:relative;z-index:1;animation:fadeIn 0.3s ease;}
+.panel.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── CARDS ── */
+.card{background:var(--glass);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:16px;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 8px 32px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.05);transition:border-color 0.3s,box-shadow 0.3s;}
+.card:hover{border-color:rgba(168,85,247,0.35);box-shadow:0 12px 40px rgba(0,0,0,0.4),0 0 30px rgba(168,85,247,0.1);}
+.card h3{font-family:'Cinzel',serif;font-size:1.05rem;color:var(--gold-light);margin-bottom:12px;display:flex;align-items:center;gap:10px;letter-spacing:0.5px;}
+.card p{color:var(--text-muted);font-size:0.87rem;line-height:1.75;margin-bottom:16px;}
+
+/* ── PHONE CTA ── */
+.phone-cta{text-align:center;padding:32px 24px;background:linear-gradient(135deg,rgba(168,85,247,0.1),rgba(6,182,212,0.05));border:1px solid rgba(168,85,247,0.25);border-radius:20px;margin-bottom:16px;position:relative;overflow:hidden;}
+.phone-cta::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at center,rgba(168,85,247,0.05) 0%,transparent 60%);animation:rotate 10s linear infinite;}
+@keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.phone-label{font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;}
+.phone-number{font-family:'Cinzel',serif;font-size:clamp(1.5rem,5vw,2.2rem);background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px;display:block;margin:8px 0 20px;}
+.phone-note{font-size:0.75rem;color:var(--text-muted);margin-top:12px;opacity:0.7;}
+
+/* ── BADGE ── */
+.badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(168,85,247,0.12));border:1px solid var(--border-gold);color:var(--gold-light);padding:5px 14px;border-radius:20px;font-size:0.78rem;font-weight:500;margin-bottom:16px;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:12px;font-family:'Inter',sans-serif;font-size:0.87rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all 0.25s;border:none;letter-spacing:0.3px;position:relative;overflow:hidden;}
+.btn::after{content:'';position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,0.1),transparent);opacity:0;transition:opacity 0.2s;}
+.btn:hover::after{opacity:1;}
+.btn-primary{background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;box-shadow:0 4px 20px rgba(124,58,237,0.4);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,58,237,0.5);}
+.btn-gold{background:linear-gradient(135deg,#c9a84c,#a07820);color:#0a0612;box-shadow:0 4px 20px rgba(201,168,76,0.3);}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(201,168,76,0.4);}
+.btn-outline{background:transparent;border:1px solid rgba(168,85,247,0.4);color:#c4b5fd;}
+.btn-outline:hover{background:rgba(168,85,247,0.1);transform:translateY(-2px);border-color:rgba(168,85,247,0.7);}
+.btn-green{background:linear-gradient(135deg,#059669,#10b981);color:#fff;box-shadow:0 4px 20px rgba(16,185,129,0.3);}
+.btn-green:hover{transform:translateY(-2px);}
+.btn-blue{background:linear-gradient(135deg,#0070ba,#0ea5e9);color:#fff;box-shadow:0 4px 20px rgba(14,165,233,0.3);}
+.btn-blue:hover{transform:translateY(-2px);}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+
+/* ── FORM ── */
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--neon);margin-bottom:6px;font-weight:500;}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.2);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:0.87rem;transition:all 0.25s;outline:none;}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--neon);background:rgba(168,85,247,0.06);box-shadow:0 0 0 3px rgba(168,85,247,0.1);}
+.form-group textarea{resize:vertical;min-height:95px;}
+.form-group select option{background:#160d2e;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:560px){.form-row{grid-template-columns:1fr;}}
+
+/* ── PAYMENT ── */
+.payment-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px;}
+.pay-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:all 0.25s;}
+.pay-card:hover,.pay-card.selected{border-color:var(--neon);background:rgba(168,85,247,0.1);transform:translateY(-2px);box-shadow:0 8px 25px rgba(168,85,247,0.2);}
+.pay-icon{font-size:1.8rem;margin-bottom:6px;}
+.pay-name{font-size:0.82rem;color:var(--text);font-weight:600;}
+.pay-desc{font-size:0.7rem;color:var(--text-muted);margin-top:2px;}
+
+/* ── MINUTES ── */
+.minutes-selector{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.min-btn{padding:8px 16px;border:1px solid rgba(168,85,247,0.2);background:rgba(255,255,255,0.03);border-radius:10px;cursor:pointer;transition:all 0.25s;font-family:'Inter',sans-serif;color:var(--text-muted);font-size:0.85rem;font-weight:500;}
+.min-btn:hover,.min-btn.active{border-color:var(--neon);background:rgba(168,85,247,0.15);color:#e9d5ff;box-shadow:0 0 15px rgba(168,85,247,0.2);}
+.total-display{font-family:'Cinzel',serif;font-size:1.6rem;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin:14px 0;}
+
+/* ── SUCCESS ── */
+.success-msg{display:none;text-align:center;padding:20px;background:rgba(5,150,105,0.08);border:1px solid rgba(5,150,105,0.3);border-radius:12px;margin-top:14px;}
+.success-msg .check{font-size:2rem;margin-bottom:8px;}
+.success-msg p{color:#6ee7b7;font-size:0.88rem;}
+
+/* ── ADMIN MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;align-items:center;justify-content:center;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
+.modal-box{background:linear-gradient(135deg,#160d2e,#0e0a1e);border:1px solid rgba(168,85,247,0.3);border-radius:20px;padding:36px;width:min(340px,90vw);text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.6),0 0 40px rgba(168,85,247,0.1);}
+.modal-title{font-family:'Cinzel',serif;color:var(--gold-light);font-size:1.1rem;margin-bottom:6px;}
+.modal-sub{color:var(--text-muted);font-size:0.82rem;margin-bottom:20px;}
+.modal-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(168,85,247,0.3);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:0.9rem;outline:none;margin-bottom:10px;transition:border-color 0.25s;}
+.modal-input:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(168,85,247,0.15);}
+.modal-error{color:#f87171;font-size:0.78rem;margin-bottom:10px;display:none;}
+
+/* ── FOOTER ── */
+footer{text-align:center;padding:32px 20px;color:var(--text-muted);font-size:0.78rem;position:relative;z-index:1;border-top:1px solid var(--border);margin-top:20px;}
+footer a{color:var(--neon);text-decoration:none;transition:color 0.2s;}
+footer a:hover{color:var(--gold-light);}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--dark);}
+::-webkit-scrollbar-thumb{background:var(--neon2);border-radius:2px;}
+</style>
+</head>
+<body>
+<div class="bg-gradient"></div>
+<div class="bg-grid"></div>
+<div class="particles" id="particles"></div>
+
+<!-- Formulaires cachés Netlify -->
+<form name="rendez-vous" netlify netlify-honeypot="bot-field" hidden>
+  <input name="nom"/><input name="telephone"/><input name="email"/>
+  <input name="date-naissance"/><input name="date-rdv"/><input name="heure-rdv"/>
+  <textarea name="message"></textarea>
+</form>
+<form name="consultation-email" netlify netlify-honeypot="bot-field" hidden>
+  <input name="nom"/><input name="email"/>
+  <input name="theme"/><textarea name="question"></textarea>
+</form>
+
+<!-- Admin Modal -->
+<div class="modal-overlay" id="adminModal">
+  <div class="modal-box">
+    <div class="modal-title">🔐 Accès Admin</div>
+    <div class="modal-sub">Mot de passe pour changer le statut</div>
+    <input type="password" class="modal-input" id="adminPwd" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')checkPwd()"/>
+    <div class="modal-error" id="pwdError">Mot de passe incorrect.</div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="checkPwd()" class="btn btn-primary" style="flex:1;">Valider</button>
+      <button onclick="closeModal()" class="btn btn-outline" style="flex:1;">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <header>
+    <div class="logo-glow">
+      <div class="logo-svg-wrap">
+        <svg class="logo-svg" viewBox="0 0 520 160" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="b1" cx="75%" cy="30%" r="50%"><stop offset="0%" stop-color="#a855f7" stop-opacity="0.7"/><stop offset="100%" stop-color="#a855f7" stop-opacity="0"/></radialGradient>
+            <radialGradient id="b2" cx="20%" cy="65%" r="40%"><stop offset="0%" stop-color="#7c3aed" stop-opacity="0.5"/><stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+            <linearGradient id="gG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f0d080"/><stop offset="40%" stop-color="#c9a840"/><stop offset="100%" stop-color="#8a6010"/></linearGradient>
+            <radialGradient id="oG" cx="40%" cy="35%" r="60%"><stop offset="0%" stop-color="#e9d5ff" stop-opacity="0.9"/><stop offset="30%" stop-color="#a855f7" stop-opacity="0.8"/><stop offset="70%" stop-color="#4c1d95" stop-opacity="0.9"/><stop offset="100%" stop-color="#080418" stop-opacity="1"/></radialGradient>
+            <radialGradient id="oS" cx="35%" cy="30%" r="40%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.8"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+            <filter id="fg"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <linearGradient id="tG" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f5e090"/><stop offset="35%" stop-color="#d4a830"/><stop offset="100%" stop-color="#7a5810"/></linearGradient>
+          </defs>
+          <ellipse cx="390" cy="55" rx="130" ry="90" fill="url(#b1)" opacity="0.8"/>
+          <ellipse cx="100" cy="100" rx="100" ry="70" fill="url(#b2)" opacity="0.6"/>
+          <g transform="translate(262,78)">
+            <path d="M0,-62 L18,-18 L62,0 L18,18 L0,62 L-18,18 L-62,0 L-18,-18 Z" fill="none" stroke="url(#gG)" stroke-width="1.2" opacity="0.6"/>
+            <path d="M0,-62 L4,-75 L0,-95 L-4,-75 Z" fill="url(#gG)" filter="url(#fg)"/>
+            <path d="M0,62 L3,72 L0,82 L-3,72 Z" fill="url(#gG)" opacity="0.7"/>
+            <ellipse rx="58" ry="20" fill="none" stroke="url(#gG)" stroke-width="2.5" transform="rotate(-20)" opacity="0.9"/>
+            <ellipse rx="58" ry="20" fill="none" stroke="#a855f7" stroke-width="3" transform="rotate(-20)" opacity="0.4"/>
+            <circle r="36" fill="url(#oG)"/>
+            <circle r="36" fill="url(#oS)"/>
+            <circle r="36" fill="none" stroke="url(#gG)" stroke-width="1.5" opacity="0.5"/>
+            <g fill="#fff" opacity="0.9" filter="url(#fg)">
+              <path d="M18,-18 L20,-14 L24,-12 L20,-10 L18,-6 L16,-10 L12,-12 L16,-14 Z" transform="scale(0.7)"/>
+              <circle cx="10" cy="-8" r="1.2"/><circle cx="-12" cy="5" r="0.9"/>
+            </g>
+            <path d="M0,-64 L3,-60 L0,-56 L-3,-60 Z" fill="#c084fc" opacity="0.9"/>
+            <g fill="url(#gG)" filter="url(#fg)">
+              <path d="M52,10 L54,14 L58,16 L54,18 L52,22 L50,18 L46,16 L50,14 Z" transform="scale(0.8)"/>
+              <path d="M-50,-20 L-48,-17 L-45,-16 L-48,-14 L-50,-11 L-52,-14 L-55,-16 L-52,-17 Z" transform="scale(0.7)"/>
+            </g>
+          </g>
+          <text x="260" y="115" font-family="Cinzel,serif" font-size="38" font-weight="700" fill="url(#tG)" text-anchor="middle" filter="url(#fg)" letter-spacing="3">MARCOMEDIUM</text>
+          <text x="390" y="133" font-family="Cinzel,serif" font-size="13" fill="url(#tG)" text-anchor="middle" letter-spacing="2" opacity="0.8">.COM</text>
+          <g fill="url(#gG)" filter="url(#fg)">
+            <path d="M330,18 L332,23 L337,25 L332,27 L330,32 L328,27 L323,25 L328,23 Z" transform="scale(0.85)"/>
+            <path d="M405,12 L406.5,15.5 L410,17 L406.5,18.5 L405,22 L403.5,18.5 L400,17 L403.5,15.5 Z" transform="scale(0.75)"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="tagline">Voyance · Guidance · Écriture automatique</div>
+  </header>
+
+  <div class="divider"><span>✦</span></div>
+
+  <div class="status-wrap">
+    <div class="status-btn available" id="statusBtn">
+      <span class="status-dot"></span>
+      <span id="statusText">Disponible</span>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h2>Votre avenir révélé</h2>
+    <p>Explorons ensemble votre chemin de vie et trouvons les réponses que vous cherchez.</p>
+  </div>
+
+  <div class="divider"><span>✦</span></div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showPanel('appel')">📞 Appel</button>
+    <button class="tab" onclick="showPanel('rdv')">📅 Rendez-vous</button>
+    <button class="tab" onclick="showPanel('whatsapp')">💬 WhatsApp</button>
+    <button class="tab" onclick="showPanel('email')">✉️ E-mail</button>
+    <button class="tab" onclick="showPanel('paiement')">💳 Paiement</button>
+  </div>
+
+  <!-- APPEL -->
+  <div class="panel active" id="panel-appel">
+    <div class="phone-cta">
+      <div class="phone-label">Consultation immédiate</div>
+      <span class="phone-number">+41 21 862 33 26</span>
+      <a href="tel:+41218623326" id="callBtn" class="btn btn-primary" style="margin:0 auto;display:inline-flex;font-size:1rem;padding:13px 30px;">📞 Appeler maintenant</a>
+      <p class="phone-note">⚠️ Paiement requis avant l'appel · CHF 2.–/min</p>
+    </div>
+    <div class="card">
+      <h3>🔮 Comment ça fonctionne ?</h3>
+      <p>1. Choisissez vos minutes et effectuez votre paiement.<br>2. Composez le <strong style="color:var(--gold-light)">+41 21 862 33 26</strong> après validation.<br>3. Marco est à votre écoute.</p>
+      <div class="btn-row"><button class="btn btn-outline" onclick="showPanel('paiement')">💳 Payer d'abord</button></div>
+    </div>
+  </div>
+
+  <!-- RDV -->
+  <div class="panel" id="panel-rdv">
+    <div class="card">
+      <h3>📅 Consultation sur rendez-vous</h3>
+      <p>Remplissez le formulaire. Marco vous rappelle à l'heure convenue.</p>
+      <div class="badge">CHF 2.– / minute · Paiement avant la séance</div>
+      <div class="form-row">
+        <div class="form-group"><label>Nom & Prénom *</label><input type="text" placeholder="Votre nom" id="rdv-nom" name="nom"/></div>
+        <div class="form-group"><label>Date de naissance *</label><input type="date" id="rdv-dob" name="date-naissance"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Téléphone *</label><input type="tel" placeholder="+41 XX XXX XX XX" id="rdv-tel" name="telephone"/></div>
+        <div class="form-group"><label>E-mail *</label><input type="email" placeholder="votre@email.com" id="rdv-email" name="email"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Date *</label><input type="date" id="rdv-date" name="date-rdv"/></div>
+        <div class="form-group"><label>Heure *</label><input type="time" id="rdv-heure" name="heure-rdv" min="09:00" max="19:00"/></div>
+      </div>
+      <input type="hidden" name="form-name" value="rendez-vous"/>
+      <div class="form-group"><label>Message</label><textarea placeholder="Décrivez votre situation..." id="rdv-msg" name="message"></textarea></div>
+      <div class="btn-row">
+        <button class="btn btn-gold" onclick="submitRdv()">✨ Demander un RDV</button>
+        <button class="btn btn-outline" onclick="showPanel('paiement')">💳 Payer en avance</button>
+      </div>
+      <div class="success-msg" id="rdv-success"><div class="check">✅</div><p><strong>Demande envoyée !</strong><br>Marco vous contactera pour confirmer.</p></div>
+    </div>
+  </div>
+
+  <!-- WHATSAPP -->
+  <div class="panel" id="panel-whatsapp">
+    <div class="card">
+      <h3>💬 Consultation par WhatsApp</h3>
+      <p>1 question précise = 1 réponse directe et concise.</p>
+      <div class="badge">CHF 2.– par question · Paiement Twint d'abord</div>
+      <p>Envoyez votre question après validation du paiement Twint.</p>
+      <div class="btn-row">
+        <a href="https://wa.me/41782535452" target="_blank" class="btn btn-green">💬 Ouvrir WhatsApp</a>
+        <a href="https://go.twint.ch/1/e/tw?tw=acq.ZyMUOjPnQcG6FgTkDskeox9MUbMxm07n60GpwpqeezsfvYNMZxK3gd5UC9GjjxcX." target="_blank" class="btn btn-outline">🟦 Payer Twint d'abord</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMAIL -->
+  <div class="panel" id="panel-email">
+    <div class="card">
+      <h3>✉️ Consultation par E-mail</h3>
+      <p>1 question = 1 réponse approfondie. Réponse en moins de 24h.</p>
+      <div class="badge">CHF 15.– · Amour · Travail · Argent · Santé</div>
+      <div class="form-row">
+        <div class="form-group"><label>Nom & Prénom *</label><input type="text" placeholder="Votre nom" id="mail-nom" name="nom"/></div>
+        <div class="form-group"><label>E-mail *</label><input type="email" placeholder="votre@email.com" id="mail-email" name="email"/></div>
+      </div>
+      <div class="form-group">
+        <label>Thème *</label>
+        <select id="mail-theme" name="theme">
+          <option value="">– Choisissez –</option>
+          <option>❤️ Amour & Relations</option>
+          <option>💼 Travail & Carrière</option>
+          <option>💰 Argent & Finances</option>
+          <option>🌿 Santé & Bien-être</option>
+          <option>🔮 Question générale</option>
+        </select>
+      </div>
+      <input type="hidden" name="form-name" value="consultation-email"/>
+      <div class="form-group"><label>Votre question *</label><textarea placeholder="Posez votre question précisément..." id="mail-question" name="question" style="min-height:120px;"></textarea></div>
+      <div class="btn-row">
+        <button class="btn btn-gold" onclick="submitMail()">✨ Envoyer ma question</button>
+        <a href="https://go.twint.ch/1/e/tw?tw=acq.ZyMUOjPnQcG6FgTkDskeox9MUbMxm07n60GpwpqeezsfvYNMZxK3gd5UC9GjjxcX." target="_blank" class="btn btn-outline">🟦 Payer CHF 15.–</a>
+      </div>
+      <div class="success-msg" id="mail-success"><div class="check">✅</div><p><strong>Question reçue !</strong><br>Marco répond dans les 24h.</p></div>
+    </div>
+  </div>
+
+  <!-- PAIEMENT -->
+  <div class="panel" id="panel-paiement">
+    <div class="card">
+      <h3>⏱ Choisissez vos minutes</h3>
+      <p>CHF 2.– / minute — sélectionnez la durée</p>
+      <div class="minutes-selector">
+        <button class="min-btn" onclick="selectMin(this,10)">10 min</button>
+        <button class="min-btn" onclick="selectMin(this,20)">20 min</button>
+        <button class="min-btn active" onclick="selectMin(this,30)">30 min</button>
+        <button class="min-btn" onclick="selectMin(this,45)">45 min</button>
+        <button class="min-btn" onclick="selectMin(this,60)">60 min</button>
+      </div>
+      <div class="total-display" id="totalDisplay">Total : CHF 60.–</div>
+    </div>
+    <div class="card">
+      <h3>💳 Mode de paiement</h3>
+      <div class="payment-grid">
+        <div class="pay-card selected" onclick="selectPay(this,'twint')"><div class="pay-icon">🟦</div><div class="pay-name">TWINT</div><div class="pay-desc">Rapide</div></div>
+        <div class="pay-card" onclick="selectPay(this,'paypal')"><div class="pay-icon">🅿️</div><div class="pay-name">PayPal</div><div class="pay-desc">Sécurisé</div></div>
+        <div class="pay-card" onclick="selectPay(this,'card')"><div class="pay-icon">💳</div><div class="pay-name">Carte</div><div class="pay-desc">Visa/MC</div></div>
+        <div class="pay-card" onclick="selectPay(this,'iban')"><div class="pay-icon">🏦</div><div class="pay-name">IBAN</div><div class="pay-desc">Virement</div></div>
+      </div>
+      <a id="pay-btn" href="https://go.twint.ch/1/e/tw?tw=acq.ZyMUOjPnQcG6FgTkDskeox9MUbMxm07n60GpwpqeezsfvYNMZxK3gd5UC9GjjxcX." target="_blank" class="btn btn-gold" style="width:100%;font-size:1rem;padding:15px;">🟦 Payer avec TWINT</a>
+    </div>
+    <div class="card" style="text-align:center;">
+      <h3 style="justify-content:center;">🔒 Paiement 100% sécurisé</h3>
+      <p>Votre consultation sera confirmée après validation.</p>
+      <div class="btn-row" style="justify-content:center;margin-top:14px;">
+        <button class="btn btn-outline" onclick="showPanel('appel')">📞 Appel immédiat</button>
+        <button class="btn btn-primary" onclick="showPanel('rdv')">📅 Prendre RDV</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="divider"><span>✦</span></div>
+    <p style="margin-bottom:6px;">📍 Vaud, Suisse &nbsp;·&nbsp; <a href="tel:+41218623326">+41 21 862 33 26</a> &nbsp;·&nbsp; <a href="mailto:info@marcomedium.com">info@marcomedium.com</a></p>
+    <p>Lun–Ven 9h–19h &nbsp;·&nbsp; © 2025–2026 marcomedium.com</p>
+  </footer>
+</div>
+
+<script>
+// Particles
+const pc=document.getElementById('particles');
+const colors=['#a855f7','#7c3aed','#06b6d4','#c9a84c','#e9d5ff'];
+for(let i=0;i<60;i++){
+  const p=document.createElement('div');p.className='particle';
+  const sz=Math.random()*3+1;
+  p.style.cssText=`width:${sz}px;height:${sz}px;background:${colors[Math.floor(Math.random()*colors.length)]};top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${3+Math.random()*6}s;animation-delay:${Math.random()*6}s;opacity:${Math.random()*0.6+0.2}`;
+  pc.appendChild(p);
+}
+
+// Firebase
+const FIREBASE_URL='https://marcomedium-c3e19-default-rtdb.europe-west1.firebasedatabase.app/status.json';
+const ADMIN_PWD='marco2026';
+let isAvailable=true,clickCount=0,clickTimer=null;
+
+async function loadStatus(){
+  try{const r=await fetch(FIREBASE_URL+'?t='+Date.now());const d=await r.json();isAvailable=(d===null)?true:(d.available!==false);updateStatusUI();}catch(e){}
+}
+async function saveStatus(val){
+  try{await fetch(FIREBASE_URL,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({available:val})});}catch(e){}
+}
+loadStatus();setInterval(loadStatus,10000);
+
+function updateStatusUI(){
+  const btn=document.getElementById('statusBtn');const txt=document.getElementById('statusText');
+  btn.className='status-btn '+(isAvailable?'available':'busy');
+  txt.textContent=isAvailable?'Disponible':'Occupé';
+  // Bloquer le bouton appeler si occupé
+  const callBtn=document.getElementById('callBtn');
+  if(callBtn){
+    if(isAvailable){
+      callBtn.href='tel:+41218623326';
+      callBtn.style.opacity='1';
+      callBtn.style.pointerEvents='auto';
+      callBtn.style.filter='none';
+      callBtn.innerHTML='📞 Appeler maintenant';
+    } else {
+      callBtn.removeAttribute('href');
+      callBtn.style.opacity='0.4';
+      callBtn.style.pointerEvents='none';
+      callBtn.style.filter='grayscale(1)';
+      callBtn.innerHTML='🚫 Actuellement en consultation';
+    }
+  }
+}
+document.getElementById('statusBtn').addEventListener('click',function(){
+  clickCount++;if(clickTimer)clearTimeout(clickTimer);
+  clickTimer=setTimeout(()=>{clickCount=0;},600);
+  if(clickCount>=3){clickCount=0;openModal();}
+});
+function openModal(){document.getElementById('adminModal').style.display='flex';document.getElementById('adminPwd').value='';document.getElementById('pwdError').style.display='none';setTimeout(()=>document.getElementById('adminPwd').focus(),100);}
+function closeModal(){document.getElementById('adminModal').style.display='none';}
+async function checkPwd(){
+  const val=document.getElementById('adminPwd').value;
+  if(val===ADMIN_PWD){closeModal();isAvailable=!isAvailable;updateStatusUI();await saveStatus(isAvailable);}
+  else{document.getElementById('pwdError').style.display='block';document.getElementById('adminPwd').value='';document.getElementById('adminPwd').focus();}
+}
+
+// Tabs
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  ['appel','rdv','whatsapp','email','paiement'].forEach((t,i)=>{if(t===id)document.querySelectorAll('.tab')[i].classList.add('active');});
+}
+function selectMin(btn,min){document.querySelectorAll('.min-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('totalDisplay').textContent=`Total : CHF ${min*2}.–`;}
+const payLinks={twint:'https://go.twint.ch/1/e/tw?tw=acq.ZyMUOjPnQcG6FgTkDskeox9MUbMxm07n60GpwpqeezsfvYNMZxK3gd5UC9GjjxcX.',paypal:'https://www.paypal.com/ncp/payment/VEWS58585DEVC',card:'https://www.paypal.com/ncp/payment/VEWS58585DEVC',iban:'https://www.marcomedium.com/_downloads/271dfb345399f55e5fadf9269fd90954'};
+const payLabels={twint:'🟦 Payer avec TWINT',paypal:'🅿️ Payer avec PayPal',card:'💳 Payer par Carte',iban:'🏦 Payer par IBAN'};
+function selectPay(card,method){document.querySelectorAll('.pay-card').forEach(c=>c.classList.remove('selected'));card.classList.add('selected');const btn=document.getElementById('pay-btn');btn.href=payLinks[method];btn.textContent=payLabels[method];btn.className='btn '+(method==='twint'?'btn-gold':method==='iban'?'btn-outline':'btn-blue');btn.style='width:100%;font-size:1rem;padding:15px;';}
+async function submitRdv(){
+  const n=document.getElementById('rdv-nom').value,t=document.getElementById('rdv-tel').value,e=document.getElementById('rdv-email').value,d=document.getElementById('rdv-date').value;
+  if(!n||!t||!e||!d){alert('Veuillez remplir les champs obligatoires.');return;}
+  const body=new URLSearchParams({'form-name':'rendez-vous','nom':n,'telephone':t,'email':e,'date-naissance':document.getElementById('rdv-dob').value,'date-rdv':d,'heure-rdv':document.getElementById('rdv-heure').value,'message':document.getElementById('rdv-msg').value});
+  try{await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()});}catch(e){}
+  document.getElementById('rdv-success').style.display='block';
+}
+async function submitMail(){
+  const n=document.getElementById('mail-nom').value,e=document.getElementById('mail-email').value,q=document.getElementById('mail-question').value;
+  if(!n||!e||!q){alert('Veuillez remplir les champs obligatoires.');return;}
+  const body=new URLSearchParams({'form-name':'consultation-email','nom':n,'email':e,'theme':document.getElementById('mail-theme').value,'question':q});
+  try{await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()});}catch(e){}
+  document.getElementById('mail-success').style.display='block';
+}
+</script>
+</body>
+</html>
