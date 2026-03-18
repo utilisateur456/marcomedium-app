@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Règles de confidentialité – Marco Médium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #080612;
+      --surface: #0f0b1e;
+      --border: rgba(180, 140, 255, 0.15);
+      --gold: #c9a84c;
+      --purple: #9b72cf;
+      --lilac: #d0b8f5;
+      --text: #e8dff8;
+      --muted: #9585b8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.8;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Starfield background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 15%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 55%, rgba(255,255,255,0.2) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 60% 40%, rgba(200,180,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 15% 45%, rgba(200,180,255,0.3) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Ambient glow */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80vw;
+      height: 60vh;
+      background: radial-gradient(ellipse, rgba(100, 50, 200, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 60px 32px 80px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 56px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sigil {
+      font-size: 36px;
+      margin-bottom: 20px;
+      opacity: 0.85;
+      display: block;
+      letter-spacing: 8px;
+    }
+
+    header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(22px, 5vw, 34px);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    header .subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    .gold-line {
+      display: block;
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 22px auto 0;
+    }
+
+    /* Date */
+    .meta {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      margin-bottom: 48px;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 44px;
+      padding: 28px 30px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      position: relative;
+    }
+
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--purple), transparent);
+      border-radius: 2px 0 0 2px;
+    }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--lilac);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    h2 .icon {
+      font-size: 16px;
+      opacity: 0.8;
+    }
+
+    p {
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.85;
+      margin-bottom: 12px;
+      font-weight: 300;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0 0;
+    }
+
+    ul li {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--text);
+      padding: 6px 0 6px 22px;
+      position: relative;
+      line-height: 1.7;
+    }
+
+    ul li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 10px;
+      top: 10px;
+    }
+
+    strong {
+      color: var(--lilac);
+      font-weight: 600;
+    }
+
+    a {
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+      transition: border-color 0.2s;
+    }
+
+    a:hover { border-color: var(--gold); }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    footer .name {
+      font-size: 14px;
+      color: var(--lilac);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 520px) {
+      .page { padding: 40px 20px 60px; }
+      section { padding: 22px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header>
+      <span class="sigil">✦ ☽ ✦</span>
+      <h1>Règles de confidentialité</h1>
+      <p class="subtitle">Marco Médium — Voyance, Guidance &amp; Écriture automatique</p>
+      <span class="gold-line"></span>
+    </header>
+
+    <p class="meta">Dernière mise à jour : 18 mars 2026</p>
+
+    <section>
+      <h2><span class="icon">🔮</span> Présentation</h2>
+      <p>
+        L'application <strong>Marco Médium</strong> est un service de voyance, guidance spirituelle et écriture automatique basé sur l'intelligence artificielle.
+        La présente politique de confidentialité décrit la façon dont nous collectons, utilisons et protégeons vos informations lorsque vous utilisez notre application.
+      </p>
+      <p>
+        En utilisant Marco Médium, vous acceptez les pratiques décrites dans ce document.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="icon">📋</span> Données collectées</h2>
+      <p>Nous collectons uniquement les données strictement nécessaires au bon fonctionnement du service :</p>
+      <ul>
+        <li><strong>Questions et demandes</strong> — Le texte que vous saisissez afin de recevoir une guidance ou une lecture.</li>
+        <li><strong>Données d'utilisation</strong> — Informations anonymes sur la façon dont l'application est utilisée (pages consultées, durée de session), à des fins statistiques uniquement.</li>
+        <li><strong>Données techniques</strong> — Type d'appareil, système d'exploitation et version de l'application pour assurer la compatibilité et corriger les erreurs.</li>
+      </ul>
+      <p>Nous ne collectons <strong>aucune</strong> donnée d'identification personnelle (nom, adresse e-mail, numéro de téléphone) sans votre consentement explicite.</p>
+    </section>
+
+    <section>
+      <h2><span class="icon">🌙</span> Utilisation des données</h2>
+      <p>Les données collectées sont utilisées exclusivement pour :</p>
+      <ul>
+        <li>Générer les réponses de guidance via l'API Anthropic (Claude).</li>
+        <li>Améliorer la qualité et la pertinence du service.</li>
+        <li>Corriger les bugs et assurer la stabilité de l'application.</li>
+        <li>Répondre à vos demandes d'assistance si vous nous contactez.</li>
+      </ul>
+      <p>Nous ne vendons, ne louons ni ne partageons vos données personnelles avec des tiers à des fins commerciales.</p>
+    </section>
+
+    <section>
+      <h2><span class="icon">🤝</span> Services tiers</h2>
+      <p>Marco Médium fait appel aux services tiers suivants, chacun disposant de sa propre politique de confidentialité :</p>
+      <ul>
+        <li><strong>Anthropic (API Claude)</strong> — Traitement des requêtes d'intelligence artificielle. <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener">politique Anthropic →</a></li>
+        <li><strong>Cloudflare Workers</strong> — Passerelle sécurisée pour les appels API. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">politique Cloudflare →</a></li>
+        <li><strong>Netlify / GitHub Pages</strong> — Hébergement du site et des scripts. <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener">politique Netlify →</a></li>
+        <li><strong>EmailJS</strong> — Envoi de messages de contact. <a href="https://www.emailjs.com/legal/privacy-policy/" target="_blank" rel="noopener">politique EmailJS →</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><span class="icon">🔒</span> Sécurité des données</h2>
+      <p>
+        Nous mettons en œuvre des mesures de sécurité adaptées pour protéger vos informations contre tout accès non autorisé, modification, divulgation ou destruction.
+        Les communications entre l'application et nos services passent exclusivement par des connexions chiffrées (HTTPS).
+      </p>
+      <p>
+        Vos clés API et informations sensibles sont stockées dans des variables d'environnement sécurisées et ne sont jamais exposées côté client.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="icon">🌟</span> Conservation des données</h2>
+      <p>
+        Les requêtes envoyées à l'API d'intelligence artificielle ne sont pas stockées de façon permanente dans notre application.
+        Chaque session est indépendante. Nous ne conservons pas l'historique de vos consultations.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="icon">👶</span> Protection des mineurs</h2>
+      <p>
+        Marco Médium n'est pas destiné aux enfants de moins de <strong>13 ans</strong>. Nous ne collectons pas sciemment de données personnelles concernant des enfants de moins de 13 ans.
+        Si vous pensez qu'un enfant nous a fourni des informations personnelles, veuillez nous contacter afin que nous puissions les supprimer.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="icon">⚖️</span> Vos droits</h2>
+      <p>Conformément au Règlement Général sur la Protection des Données (RGPD) et aux lois applicables, vous disposez des droits suivants :</p>
+      <ul>
+        <li><strong>Droit d'accès</strong> — Connaître les données que nous détenons sur vous.</li>
+        <li><strong>Droit de rectification</strong> — Corriger des données inexactes.</li>
+        <li><strong>Droit à l'effacement</strong> — Demander la suppression de vos données.</li>
+        <li><strong>Droit d'opposition</strong> — Vous opposer à certains traitements de vos données.</li>
+      </ul>
+      <p>Pour exercer ces droits, contactez-nous à l'adresse indiquée ci-dessous.</p>
+    </section>
+
+    <section>
+      <h2><span class="icon">✉️</span> Contact</h2>
+      <p>
+        Pour toute question relative à cette politique de confidentialité ou pour exercer vos droits,
+        vous pouvez nous contacter via le formulaire disponible sur <a href="https://marcomedium.com" target="_blank" rel="noopener">marcomedium.com</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2><span class="icon">🔄</span> Modifications</h2>
+      <p>
+        Nous nous réservons le droit de modifier cette politique de confidentialité à tout moment.
+        Toute modification sera publiée sur cette page avec une date de mise à jour.
+        Nous vous encourageons à consulter régulièrement cette page.
+      </p>
+    </section>
+
+    <footer>
+      <span class="name">Marco Médium</span>
+      © 2026 — Tous droits réservés
+    </footer>
+
+  </div>
+</body>
+</html>
