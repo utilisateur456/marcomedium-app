@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Votre Tirage du Jour – MarcoMedium</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#3d1560; font-family:Georgia,'Times New Roman',serif; min-height:100vh; padding:40px 20px; overflow-x:hidden; }
+  @media (max-width: 600px) {
+    body { padding: 16px 10px; }
+    .card { padding: 24px 14px !important; }
+    .eventail { height: 160px !important; }
+    .oracle-card { width: 58px !important; height: 95px !important; }
+    .oracle-card:nth-child(1) { left: calc(50% - 155px) !important; }
+    .oracle-card:nth-child(2) { left: calc(50% - 100px) !important; }
+    .oracle-card:nth-child(3) { left: calc(50% - 48px) !important; }
+    .oracle-card:nth-child(4) { left: calc(50% - 29px) !important; }
+    .oracle-card:nth-child(5) { left: calc(50% + 2px) !important; }
+    .oracle-card:nth-child(6) { left: calc(50% + 42px) !important; }
+    .oracle-card:nth-child(7) { left: calc(50% + 90px) !important; }
+    .cf-num-top { font-size: 0.65rem !important; }
+    .cf-name { font-size: 0.42rem !important; }
+    .cartes-choisies { gap: 10px !important; }
+    .carte-mini { width: 65px !important; height: 105px !important; }
+    .grille { grid-template-columns: 1fr !important; }
+    .titre { font-size: 1.2rem !important; }
+    .bloc-texte p { font-size: 1rem !important; }
+    .dom-block p { font-size: 0.95rem !important; }
+    .message-marco p { font-size: 0.95rem !important; }
+    .tirer-btn { font-size: 0.8rem !important; padding: 14px !important; }
+    input[type=text] { font-size: 1rem !important; padding: 12px 14px !important; }
+  }
+  .card { background:linear-gradient(135deg,#4a1a6b,#3a1255); border:1px solid rgba(201,168,224,0.3); border-radius:8px; padding:44px 40px; max-width:700px; margin:0 auto; color:#f0e6ff; box-shadow:0 0 60px rgba(100,30,160,0.3); }
+  .ornament { text-align:center; font-size:1.4rem; color:rgba(201,168,224,0.5); letter-spacing:0.6em; margin-bottom:12px; }
+  .titre { text-align:center; font-family:'Cinzel Decorative',cursive; font-size:1.5rem; color:#c9a8e0; margin-bottom:8px; text-shadow:0 0 20px rgba(201,168,224,0.4); }
+  .sous-titre { text-align:center; font-style:italic; color:rgba(201,168,224,0.7); font-size:1.1rem; margin-bottom:12px; }
+  .instruction { text-align:center; font-style:italic; color:rgba(201,168,224,0.6); font-size:1rem; margin-bottom:36px; min-height:28px; }
+  label { display:block; font-family:'Cinzel Decorative',cursive; font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:#c9a8e0; margin-bottom:10px; }
+  input[type=text] { width:100%; padding:15px 18px; background:rgba(30,5,60,0.6); border:1px solid rgba(201,168,224,0.3); border-radius:4px; color:#f0e6ff; font-family:Georgia,serif; font-size:1.1rem; outline:none; transition:border-color .3s; margin-bottom:28px; }
+  input:focus { border-color:#c9a8e0; }
+  .divider { display:flex; align-items:center; gap:12px; margin:0 0 28px 0; color:rgba(201,168,224,0.4); }
+  .divider::before,.divider::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,transparent,rgba(201,168,224,.3),transparent); }
+
+  /* EVENTAIL */
+  .eventail { height:220px; margin:0 auto 36px; position:relative; width:100%; }
+  .oracle-card { width:86px; height:142px; border-radius:10px; position:absolute; cursor:pointer; transition:bottom 0.3s ease, box-shadow 0.3s ease; bottom:0; }
+
+  .card-inner { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform 0.7s cubic-bezier(0.4,0,0.2,1); border-radius:10px; }
+  .oracle-card.flipped .card-inner { transform:rotateY(180deg); }
+
+  .card-back,.card-face { width:100%; height:100%; border-radius:10px; position:absolute; backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px; }
+
+  .card-back {
+    background: #1a3a7a;
+    border: 2px solid #8a7a30;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    background-image:
+      radial-gradient(2px 2px at 15% 20%, rgba(255,220,80,0.9) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,220,80,0.7) 0%, transparent 100%),
+      radial-gradient(2px 2px at 80% 25%, rgba(255,220,80,0.8) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 25% 50%, rgba(255,220,80,0.6) 0%, transparent 100%),
+      radial-gradient(2px 2px at 70% 55%, rgba(255,220,80,0.7) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 40% 75%, rgba(255,220,80,0.8) 0%, transparent 100%),
+      radial-gradient(2px 2px at 85% 80%, rgba(255,220,80,0.6) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 10% 85%, rgba(255,220,80,0.7) 0%, transparent 100%),
+      linear-gradient(160deg, #1a4a9a 0%, #0d2860 50%, #1a3a7a 100%);
+  }
+  .card-back::before {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: 1px solid rgba(180,150,40,0.5);
+    border-radius: 6px;
+    background: transparent;
+    pointer-events: none;
+  }
+  .card-back::after {
+    content: "\2605";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.8rem;
+    color: rgba(255,220,80,0.5);
+    pointer-events: none;
+  }
+
+  .card-face { border:2px solid rgba(201,168,224,0.55); transform:rotateY(180deg); box-shadow:0 4px 20px rgba(0,0,0,0.5); text-align:center; }
+  .cf-num-top { font-family:'Cinzel Decorative',cursive; font-size:0.75rem; font-weight:700; color:rgba(220,190,100,0.95); margin-bottom:2px; text-shadow:0 0 6px rgba(220,190,100,0.5); }
+  .cf-num-bot { font-family:'Cinzel Decorative',cursive; font-size:0.65rem; color:rgba(220,190,100,0.7); margin-top:2px; transform:rotate(180deg); }
+  .cf-svg { margin-bottom:4px; display:flex; align-items:center; justify-content:center; }
+  .cf-name { font-family:'Cinzel Decorative',cursive; font-size:0.48rem; color:#c9a8e0; line-height:1.2; }
+
+  /* Positions éventail */
+
+  /* Hover sans perturber la rotation */
+
+  .oracle-card:not(.flipped):not(.disabled):hover {
+    bottom: 22px !important;
+    box-shadow: 0 12px 30px rgba(201,168,224,0.35);
+    z-index: 100 !important;
+  }
+  .oracle-card.disabled { cursor:default; opacity:0.35; }
+
+  /* Cartes choisies */
+  .cartes-choisies { display:flex; justify-content:center; gap:20px; margin-bottom:32px; flex-wrap:wrap; }
+  .carte-choisie { text-align:center; opacity:0; transform:translateY(16px); transition:all 0.5s ease; }
+  .carte-choisie.visible { opacity:1; transform:translateY(0); }
+  .pos-lbl { font-family:'Cinzel Decorative',cursive; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:rgba(201,168,224,0.55); margin-bottom:8px; }
+  .carte-mini { width:78px; height:126px; border-radius:8px; border:2px solid rgba(201,168,224,0.4); display:flex; flex-direction:column; align-items:center; justify-content:center; margin:0 auto 6px; padding:6px; text-align:center; background:rgba(30,5,60,0.5); }
+  .cm-svg { margin-bottom:4px; display:flex; align-items:center; justify-content:center; }
+  .cm-name { font-family:'Cinzel Decorative',cursive; font-size:0.5rem; color:#c9a8e0; line-height:1.3; }
+
+  /* Bouton */
+  .tirer-btn { display:block; width:100%; padding:18px; background:transparent; border:1px solid rgba(201,168,224,0.4); border-radius:4px; color:rgba(201,168,224,0.5); font-family:'Cinzel Decorative',cursive; font-size:0.95rem; letter-spacing:.15em; cursor:not-allowed; transition:all .4s; }
+  .tirer-btn.actif { border-color:#c9a8e0; color:#c9a8e0; cursor:pointer; }
+  .tirer-btn.actif:hover { background:rgba(201,168,224,0.1); box-shadow:0 0 25px rgba(201,168,224,0.2); }
+
+  /* Loading */
+  .loading { display:none; text-align:center; padding:40px 0; }
+  .ball { font-size:3rem; display:block; margin-bottom:14px; animation:float 2s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .load-txt { font-style:italic; color:rgba(201,168,224,0.7); font-size:1.1rem; animation:fade 1.5s ease-in-out infinite; }
+  @keyframes fade { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+  /* Résultats */
+  .result { display:none; margin-top:28px; animation:reveal .7s ease; }
+  @keyframes reveal { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+  .section-title { font-family:'Cinzel Decorative',cursive; font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(201,168,224,0.6); margin-bottom:14px; }
+  .bloc-texte { padding:20px; border:1px solid rgba(201,168,224,0.2); border-radius:6px; margin-bottom:24px; }
+  .bloc-texte .bl { font-family:'Cinzel Decorative',cursive; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:rgba(201,168,224,0.5); margin-bottom:10px; }
+  .bloc-texte p { font-style:italic; font-size:1.1rem; line-height:1.8; color:#f0e6ff; }
+  .grille { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px; }
+  .dom-block { background:rgba(30,5,60,0.5); border:1px solid rgba(201,168,224,0.2); border-radius:6px; padding:18px 16px; }
+  .dom-block .dh { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .dom-block .di { font-size:1.3rem; }
+  .dom-block .dn { font-family:'Cinzel Decorative',cursive; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:#c9a8e0; }
+  .dom-block p { font-style:italic; font-size:1rem; line-height:1.65; color:rgba(240,230,255,0.9); }
+  .message-marco { padding:20px; border:1px solid rgba(201,168,224,0.2); border-radius:6px; text-align:center; margin-bottom:24px; }
+  .message-marco .ml { font-family:'Cinzel Decorative',cursive; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(201,168,224,0.5); }
+  .message-marco p { margin-top:10px; font-style:italic; color:rgba(201,168,224,0.9); font-size:1.1rem; line-height:1.7; }
+  .retry { display:block; margin:0 auto; padding:12px 32px; background:transparent; border:1px solid rgba(201,168,224,0.3); border-radius:4px; color:rgba(201,168,224,0.7); font-family:Georgia,serif; cursor:pointer; transition:all .3s; font-size:1rem; }
+  .retry:hover { border-color:#c9a8e0; color:#c9a8e0; }
+  .erreur { display:none; padding:14px 16px; margin-top:14px; border:1px solid rgba(220,80,80,.4); border-radius:4px; background:rgba(220,80,80,.07); color:#e08888; font-style:italic; }
+</style>
+</head>
+<body>
+<style>
+.back-btn{display:inline-flex;align-items:center;gap:6px;margin:0 auto 18px;padding:0;background:none;border:none;color:rgba(201,168,224,0.55);font-family:Georgia,serif;font-size:0.88rem;cursor:pointer;text-decoration:none;transition:color .25s;width:fit-content;}
+.back-btn:hover{color:#c9a8e0;}
+</style>
+<div style="max-width:700px;margin:0 auto;padding:14px 20px 0;">
+<a class="back-btn" href="index.html">&#8592; Retour</a>
+</div>
+<div class="card">
+  <div class="ornament">&#10022; &#10023; &#10022;</div>
+  <h1 class="titre">Votre Tirage du Jour</h1>
+  <p class="sous-titre">Tirage du jour en trois cartes</p>
+
+  <div id="oracle-form">
+    <label>Votre Prenom <span style="color:rgba(201,168,224,0.5);font-size:.65rem;">(optionnel)</span></label>
+    <input type="text" id="ora-prenom" placeholder="Pour une lecture personnalisee...">
+    <div class="divider">&#10022;</div>
+    <p class="instruction" id="ora-instruction">Concentrez-vous sur votre journee... puis choisissez votre premiere carte.</p>
+    <div class="eventail" id="eventail"></div>
+    <div class="cartes-choisies">
+      <div class="carte-choisie" id="choisie-0"><div class="pos-lbl">Passe</div><div class="carte-mini" id="mini-0"><span style="color:rgba(201,168,224,0.2);font-size:2rem;">&#10022;</span></div></div>
+      <div class="carte-choisie" id="choisie-1"><div class="pos-lbl">Present</div><div class="carte-mini" id="mini-1"><span style="color:rgba(201,168,224,0.2);font-size:2rem;">&#10022;</span></div></div>
+      <div class="carte-choisie" id="choisie-2"><div class="pos-lbl">Futur</div><div class="carte-mini" id="mini-2"><span style="color:rgba(201,168,224,0.2);font-size:2rem;">&#10022;</span></div></div>
+    </div>
+    <button class="tirer-btn" id="ora-submit" disabled>&#10023; Recevoir Ma Lecture &#10023;</button>
+  </div>
+
+  <div class="erreur" id="ora-err"></div>
+  <div class="loading" id="ora-load"><span class="ball">&#10024;</span><p class="load-txt" id="ora-load-txt">L oracle consulte les energies...</p></div>
+  <div class="result" id="ora-result"></div>
+</div>
+
+<script>
+(function(){
+  var WORKER = "https://super-band-24a0.marcomedium-com.workers.dev";
+
+  // Les 57 vraies cartes de l'Oracle de la Triade de Dominike Duplaa
+  // sym = SVG inline pour chaque carte
+    function svgStar(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><polygon points='20,2 24,14 38,14 27,22 31,36 20,28 9,36 13,22 2,14 16,14' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgSun(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><circle cx='20' cy='20' r='7' fill='none' stroke='" + c + "' stroke-width='1.5'/><line x1='20' y1='2' x2='20' y2='8' stroke='" + c + "' stroke-width='1.5'/><line x1='20' y1='32' x2='20' y2='38' stroke='" + c + "' stroke-width='1.5'/><line x1='2' y1='20' x2='8' y2='20' stroke='" + c + "' stroke-width='1.5'/><line x1='32' y1='20' x2='38' y2='20' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgMoon(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><path d='M28,20 a10,10 0 1,1 0,-0.1 a7,7 0 1,0 0,0.1z' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgHeart(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><path d='M20,34 C20,34 4,22 4,12 a8,8 0 0,1 16,-2 a8,8 0 0,1 16,2 C36,22 20,34 20,34z' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgTree(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><line x1='20' y1='38' x2='20' y2='22' stroke='" + c + "' stroke-width='1.5'/><polygon points='20,4 30,22 10,22' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgDoor(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><rect x='10' y='6' width='20' height='30' rx='2' fill='none' stroke='" + c + "' stroke-width='1.5'/><circle cx='27' cy='22' r='2' fill='" + c + "'/></svg>"; }
+  function svgEye(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><path d='M4,20 Q20,6 36,20 Q20,34 4,20z' fill='none' stroke='" + c + "' stroke-width='1.5'/><circle cx='20' cy='20' r='5' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgWave(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><path d='M4,20 Q10,12 16,20 Q22,28 28,20 Q34,12 40,20' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgKey(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><circle cx='14' cy='16' r='7' fill='none' stroke='" + c + "' stroke-width='1.5'/><line x1='19' y1='21' x2='36' y2='36' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgCross(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><line x1='20' y1='4' x2='20' y2='36' stroke='" + c + "' stroke-width='1.5'/><line x1='4' y1='14' x2='36' y2='14' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgTriangle(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><polygon points='20,4 36,34 4,34' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgInfini(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><path d='M8,20 Q8,12 14,12 Q20,12 20,20 Q20,28 26,28 Q32,28 32,20 Q32,12 26,12 Q20,12 20,20 Q20,28 14,28 Q8,28 8,20z' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgSpiral(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><path d='M20,20 Q24,14 20,10 Q14,6 10,12 Q6,20 12,26 Q18,32 26,28 Q34,22 30,14' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgLightning(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><polyline points='24,4 14,20 22,20 16,36' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgBook(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><rect x='8' y='6' width='24' height='30' rx='2' fill='none' stroke='" + c + "' stroke-width='1.5'/><line x1='20' y1='6' x2='20' y2='36' stroke='" + c + "' stroke-width='1.2'/></svg>"; }
+  function svgSword(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><line x1='20' y1='4' x2='20' y2='32' stroke='" + c + "' stroke-width='1.5'/><line x1='12' y1='26' x2='28' y2='26' stroke='" + c + "' stroke-width='1.5'/><polygon points='20,4 17,12 23,12' fill='" + c + "'/></svg>"; }
+  function svgHourglass(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><polygon points='8,4 32,4 20,20 32,36 8,36 20,20' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgFlame(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><path d='M20,36 Q8,28 10,18 Q12,10 20,6 Q18,14 22,16 Q24,10 28,12 Q32,18 28,26 Q26,32 20,36z' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgShield(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><path d='M20,4 L34,10 L34,22 Q34,32 20,38 Q6,32 6,22 L6,10 Z' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgDiamond(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><polygon points='20,4 34,20 20,36 6,20' fill='none' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgAnchor(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><circle cx='20' cy='10' r='4' fill='none' stroke='" + c + "' stroke-width='1.5'/><line x1='20' y1='14' x2='20' y2='36' stroke='" + c + "' stroke-width='1.5'/><line x1='10' y1='18' x2='30' y2='18' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+  function svgFeather(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><path d='M20,36 Q10,28 12,16 Q14,8 24,6 Q34,6 34,18 Q34,28 20,36z' fill='none' stroke='" + c + "' stroke-width='1.5'/><line x1='20' y1='36' x2='20' y2='14' stroke='" + c + "' stroke-width='1'/></svg>"; }
+  function svgCircle(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><circle cx='20' cy='20' r='14' fill='none' stroke='" + c + "' stroke-width='1.5'/><circle cx='20' cy='20' r='6' fill='none' stroke='" + c + "' stroke-width='1'/></svg>"; }
+  function svgWings(c) { return "<svg viewBox='0 0 40 40' width='36' height='36'><path d='M20,20 Q12,10 4,14 Q8,22 20,20z' fill='none' stroke='" + c + "' stroke-width='1.5'/><path d='M20,20 Q28,10 36,14 Q32,22 20,20z' fill='none' stroke='" + c + "' stroke-width='1.5'/><line x1='20' y1='20' x2='20' y2='34' stroke='" + c + "' stroke-width='1.5'/></svg>"; }
+
+  var G = "rgba(220,190,100,0.9)"; // gold
+  var S = "rgba(180,210,255,0.9)"; // silver/blue
+  var W = "rgba(255,255,255,0.8)"; // white
+
+  var CARTES = [
+    {num:"1",  nom:"Alpha",       svg:svgTriangle(G),  bg:"linear-gradient(135deg,#2d0d50,#4a1a6b)"},
+    {num:"2",  nom:"Isolement",   svg:svgCircle(S),    bg:"linear-gradient(135deg,#0d1a3d,#1a2d6b)"},
+    {num:"3",  nom:"Delta",       svg:svgEye(G),       bg:"linear-gradient(135deg,#2d1a00,#5a3400)"},
+    {num:"4",  nom:"Mensonge",    svg:svgDiamond(S),   bg:"linear-gradient(135deg,#3d0000,#5a0000)"},
+    {num:"5",  nom:"Eau",         svg:svgWave(S),      bg:"linear-gradient(135deg,#003d4a,#005060)"},
+    {num:"6",  nom:"Racine",      svg:svgTree(G),      bg:"linear-gradient(135deg,#1a1000,#3d2500)"},
+    {num:"7",  nom:"Porte",       svg:svgDoor(G),      bg:"linear-gradient(135deg,#1a003d,#3a006b)"},
+    {num:"8",  nom:"Nadir",       svg:svgFlame(S),     bg:"linear-gradient(135deg,#0d0d0d,#200020)"},
+    {num:"9",  nom:"Sagesse",     svg:svgInfini(G),    bg:"linear-gradient(135deg,#001a1a,#003d3d)"},
+    {num:"10", nom:"Reussite",    svg:svgStar(G),      bg:"linear-gradient(135deg,#2d2000,#5a4000)"},
+    {num:"11", nom:"Tentation",   svg:svgSpiral(S),    bg:"linear-gradient(135deg,#3d0020,#6b003a)"},
+    {num:"12", nom:"Sceau",       svg:svgShield(G),    bg:"linear-gradient(135deg,#001a3d,#003d6b)"},
+    {num:"13", nom:"Penitence",   svg:svgCross(S),     bg:"linear-gradient(135deg,#1a0d00,#3d1a00)"},
+    {num:"14", nom:"Homme",       svg:svgTriangle(G),  bg:"linear-gradient(135deg,#002d1a,#005a34)"},
+    {num:"15", nom:"Amour",       svg:svgHeart(G),     bg:"linear-gradient(135deg,#3d001a,#6b0034)"},
+    {num:"16", nom:"Mutation",    svg:svgSpiral(G),    bg:"linear-gradient(135deg,#1a1a00,#3d3d00)"},
+    {num:"17", nom:"Energie",     svg:svgLightning(G), bg:"linear-gradient(135deg,#1a0d3d,#34196b)"},
+    {num:"18", nom:"Science",     svg:svgBook(S),      bg:"linear-gradient(135deg,#00001a,#00003d)"},
+    {num:"19", nom:"Priere",      svg:svgMoon(G),      bg:"linear-gradient(135deg,#1a0d1a,#34193d)"},
+    {num:"20", nom:"Erreur",      svg:svgDiamond(S),   bg:"linear-gradient(135deg,#1a0000,#3d0000)"},
+    {num:"21", nom:"Benediction", svg:svgSun(G),       bg:"linear-gradient(135deg,#001a00,#003d00)"},
+    {num:"22", nom:"Choix",       svg:svgInfini(S),    bg:"linear-gradient(135deg,#1a1a1a,#2d2d2d)"},
+    {num:"23", nom:"Paix",        svg:svgWave(G),      bg:"linear-gradient(135deg,#00201a,#00403a)"},
+    {num:"24", nom:"Richesse",    svg:svgStar(G),      bg:"linear-gradient(135deg,#2d2000,#5a4500)"},
+    {num:"25", nom:"Femme",       svg:svgFeather(G),   bg:"linear-gradient(135deg,#3d0030,#6b0060)"},
+    {num:"26", nom:"Epreuve",     svg:svgSword(S),     bg:"linear-gradient(135deg,#1a1000,#3d2500)"},
+    {num:"27", nom:"Doute",       svg:svgSpiral(S),    bg:"linear-gradient(135deg,#0d0d1a,#1a1a3d)"},
+    {num:"28", nom:"Protection",  svg:svgShield(G),    bg:"linear-gradient(135deg,#001a0d,#003d20)"},
+    {num:"29", nom:"Elevation",   svg:svgWings(G),     bg:"linear-gradient(135deg,#1a001a,#3d003d)"},
+    {num:"30", nom:"Pardon",      svg:svgHeart(S),     bg:"linear-gradient(135deg,#001a1a,#003a3a)"},
+    {num:"31", nom:"Ordre",       svg:svgCross(G),     bg:"linear-gradient(135deg,#0d1a00,#203d00)"},
+    {num:"32", nom:"Illusion",    svg:svgEye(S),       bg:"linear-gradient(135deg,#1a0d0d,#3d1a1a)"},
+    {num:"33", nom:"Naissance",   svg:svgFlame(G),     bg:"linear-gradient(135deg,#001a0d,#003d20)"},
+    {num:"34", nom:"Initiation",  svg:svgDoor(S),      bg:"linear-gradient(135deg,#001a3d,#003d6b)"},
+    {num:"35", nom:"Necessite",   svg:svgAnchor(G),    bg:"linear-gradient(135deg,#2d0d00,#5a1a00)"},
+    {num:"36", nom:"Voyage",      svg:svgWings(S),     bg:"linear-gradient(135deg,#001a0d,#003020)"},
+    {num:"37", nom:"Lumiere",     svg:svgSun(G),       bg:"linear-gradient(135deg,#2d2500,#5a4a00)"},
+    {num:"38", nom:"Arme",        svg:svgSword(S),     bg:"linear-gradient(135deg,#2d0000,#5a0000)"},
+    {num:"39", nom:"Message",     svg:svgFeather(G),   bg:"linear-gradient(135deg,#001a2d,#003d5a)"},
+    {num:"40", nom:"Malheur",     svg:svgLightning(S), bg:"linear-gradient(135deg,#0d0000,#200000)"},
+    {num:"41", nom:"Equite",      svg:svgInfini(G),    bg:"linear-gradient(135deg,#00101a,#00203d)"},
+    {num:"42", nom:"Desert",      svg:svgCircle(S),    bg:"linear-gradient(135deg,#1a1000,#2d1a00)"},
+    {num:"43", nom:"Cle",         svg:svgKey(G),       bg:"linear-gradient(135deg,#2d1a00,#5a3400)"},
+    {num:"44", nom:"Foudre",      svg:svgLightning(G), bg:"linear-gradient(135deg,#3d1a00,#6b3400)"},
+    {num:"45", nom:"Temps",       svg:svgHourglass(S), bg:"linear-gradient(135deg,#0d0d1a,#1a1a3d)"},
+    {num:"46", nom:"Sacrifice",   svg:svgFlame(S),     bg:"linear-gradient(135deg,#200020,#400040)"},
+    {num:"47", nom:"Eternite",    svg:svgInfini(G),    bg:"linear-gradient(135deg,#001a1a,#003a3a)"},
+    {num:"48", nom:"Ame",         svg:svgWings(G),     bg:"linear-gradient(135deg,#0d001a,#1a003d)"},
+    {num:"49", nom:"Adversaire",  svg:svgSword(S),     bg:"linear-gradient(135deg,#200000,#400000)"},
+    {num:"50", nom:"Papyrus",     svg:svgBook(G),      bg:"linear-gradient(135deg,#1a1000,#3d2500)"},
+    {num:"51", nom:"Retour",      svg:svgSpiral(G),    bg:"linear-gradient(135deg,#001a0d,#00301a)"},
+    {num:"52", nom:"Silence",     svg:svgMoon(S),      bg:"linear-gradient(135deg,#0d001a,#200040)"},
+    {num:"53", nom:"Meditation",  svg:svgEye(G),       bg:"linear-gradient(135deg,#001a1a,#003030)"},
+    {num:"54", nom:"Mort",        svg:svgHourglass(S), bg:"linear-gradient(135deg,#0d0d0d,#000020)"},
+    {num:"55", nom:"Fusion",      svg:svgHeart(G),     bg:"linear-gradient(135deg,#001a00,#003400)"},
+    {num:"56", nom:"Frere",       svg:svgShield(S),    bg:"linear-gradient(135deg,#001a0d,#003420)"},
+    {num:"57", nom:"Omega",       svg:svgCircle(G),    bg:"linear-gradient(135deg,#1a001a,#340034)"}
+  ];
+
+  var INSTRUCTIONS = [
+    "Concentrez-vous sur votre journee... puis choisissez votre premiere carte.",
+    "Bien... Maintenant choisissez votre deuxieme carte.",
+    "Excellente vibration... Choisissez votre troisieme et derniere carte.",
+    "Vos trois cartes sont choisies. Recevez votre lecture !"
+  ];
+
+  var MSGS = ["L oracle consulte les energies...","Marco interprete les cartes...","Les vibrations de la Triade se revelent...","Les secrets s ouvrent pour vous..."];
+
+  var cartesSelectionnees = [];
+  var loadT;
+
+  function melanger(arr) { return arr.slice().sort(function(){ return Math.random()-0.5; }); }
+
+  function creerEventail() {
+    var eventail = document.getElementById("eventail");
+    eventail.innerHTML = "";
+    cartesSelectionnees = [];
+    var selection = melanger(CARTES).slice(0, 7);
+
+    var positions = [
+      { left: "calc(50% - 210px)", rot: -24 },
+      { left: "calc(50% - 140px)", rot: -16 },
+      { left: "calc(50% - 70px)",  rot: -8  },
+      { left: "calc(50% - 43px)",  rot:  0  },
+      { left: "calc(50% + 0px)",   rot:  8  },
+      { left: "calc(50% + 57px)",  rot:  16 },
+      { left: "calc(50% + 121px)", rot:  24 }
+    ];
+
+    selection.forEach(function(carte, i) {
+      var el = document.createElement("div");
+      el.className = "oracle-card";
+      var p = positions[i];
+      el.style.left = p.left;
+      el.style.bottom = "0";
+      el.style.transform = "rotate(" + p.rot + "deg)";
+      el.style.zIndex = (i < 4) ? (i+1) : (7-i);
+      el.innerHTML =
+        "<div class='card-inner'>" +
+          "<div class='card-back'></div>" +
+          "<div class='card-face' style='background:" + carte.bg + ";'>" +
+            "<div class='cf-num-top'>" + carte.num + "</div>" +
+            "<div class='cf-svg'>" + carte.svg + "</div>" +
+            "<div class='cf-name'>" + carte.nom + "</div>" +
+            "<div class='cf-num-bot'>" + carte.num + "</div>" +
+          "</div>" +
+        "</div>";
+
+      el.addEventListener("click", function(){
+        if(el.classList.contains("disabled") || el.classList.contains("flipped")) return;
+        var pos = cartesSelectionnees.length;
+        if(pos >= 3) return;
+
+        el.classList.add("flipped");
+        cartesSelectionnees.push(carte);
+
+        // Désactiver les autres
+        document.querySelectorAll(".oracle-card:not(.flipped)").forEach(function(c){ c.classList.add("disabled"); });
+
+        // Afficher mini carte
+        var mini = document.getElementById("mini-" + pos);
+        mini.style.background = carte.bg;
+        mini.innerHTML = "<div class='cm-svg'>" + carte.svg + "</div><span class='cm-name'>" + carte.nom + "</span>";
+        setTimeout(function(){ document.getElementById("choisie-"+pos).classList.add("visible"); }, 200);
+
+        document.getElementById("ora-instruction").textContent = INSTRUCTIONS[pos + 1];
+
+        if(pos < 2) {
+          setTimeout(function(){
+            document.querySelectorAll(".oracle-card:not(.flipped)").forEach(function(c){ c.classList.remove("disabled"); });
+          }, 900);
+        } else {
+          setTimeout(function(){
+            var btn = document.getElementById("ora-submit");
+            btn.disabled = false;
+            btn.classList.add("actif");
+          }, 600);
+        }
+      });
+
+      eventail.appendChild(el);
+    });
+  }
+
+  creerEventail();
+
+  document.getElementById("ora-submit").addEventListener("click", function(){
+    if(cartesSelectionnees.length < 3) return;
+    document.getElementById("ora-err").style.display = "none";
+
+    var prenom = document.getElementById("ora-prenom").value.trim();
+    var today = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+    var prenomPhrase = prenom ? "La personne s appelle " + prenom + ". " : "";
+    var c1=cartesSelectionnees[0], c2=cartesSelectionnees[1], c3=cartesSelectionnees[2];
+
+    document.getElementById("oracle-form").style.display = "none";
+    document.getElementById("ora-load").style.display = "block";
+    var idx=0;
+    loadT = setInterval(function(){ idx=(idx+1)%MSGS.length; document.getElementById("ora-load-txt").textContent=MSGS[idx]; }, 1800);
+
+    var prompt = "Tu es Marco, medium reconnu et lecteur de l Oracle de la Triade de Dominike Duplaa. Tu donnes des lectures de cartes en francais avec une voix mystique, chaleureuse et bienveillante.\n\n" +
+      prenomPhrase + "Aujourd hui le " + today + ", trois cartes ont ete tirees de l Oracle de la Triade :\n" +
+      "- Position Passe (carte 1) : " + c1.num + " - " + c1.nom + "\n" +
+      "- Position Present (carte 2) : " + c2.num + " - " + c2.nom + "\n" +
+      "- Position Futur (carte 3) : " + c3.num + " - " + c3.nom + "\n\n" +
+      "Fais une lecture complete et personnalisee en tenant compte des significations propres a chaque carte de cet oracle. " +
+      "Reponds UNIQUEMENT avec un objet JSON valide, sans aucun texte avant ni apres, sans backticks :\n" +
+      "{\"tendance\":\"2-3 phrases sur la tendance generale du jour avec les 3 cartes\",\"passe\":\"2 phrases sur ce que la carte du passe revele\",\"present\":\"2 phrases sur ce que la carte du present revele\",\"futur\":\"2 phrases sur ce que la carte du futur annonce\",\"amour\":\"2 phrases sur l amour\",\"travail\":\"2 phrases sur le travail\",\"finances\":\"2 phrases sur les finances\",\"sante\":\"2 phrases sur la sante et l energie\",\"conseil\":\"Un message spirituel profond et personnel de Marco base sur ces trois cartes\"}";
+
+    fetch(WORKER, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({type:"numerologie", promptCustom:prompt})})
+    .then(function(res){ return res.json().then(function(d){ return {ok:res.ok,data:d}; }); })
+    .then(function(r){
+      clearInterval(loadT);
+      document.getElementById("ora-load").style.display = "none";
+      if(!r.ok || r.data.error) throw new Error(r.data.error || "Erreur");
+      var o = r.data;
+
+      function miniCarte(c) {
+        return "<div style='text-align:center;'>" +
+          "<div style='font-family:\"Cinzel Decorative\",cursive;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(201,168,224,0.5);margin-bottom:6px;'>" + (c===c1?"Passe":c===c2?"Present":"Futur") + "</div>" +
+          "<div style='width:72px;height:116px;border-radius:8px;border:2px solid rgba(201,168,224,0.4);background:" + c.bg + ";display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto;padding:6px;text-align:center;'>" +
+            "<div style='font-family:\"Cinzel Decorative\",cursive;font-size:1.2rem;color:rgba(220,190,100,0.9);'>" + c.num + "</div>" +
+            "<span style='font-family:\"Cinzel Decorative\",cursive;font-size:0.48rem;color:#c9a8e0;margin-top:4px;line-height:1.3;'>" + c.nom + "</span>" +
+          "</div></div>";
+      }
+
+      var result = document.getElementById("ora-result");
+      result.innerHTML =
+        "<div style='display:flex;justify-content:center;gap:18px;margin-bottom:28px;flex-wrap:wrap;'>" + miniCarte(c1) + miniCarte(c2) + miniCarte(c3) + "</div>" +
+
+        "<p class='section-title'>Tendance du Jour</p>" +
+        "<div class='bloc-texte'><p>" + o.tendance + "</p></div>" +
+
+        "<p class='section-title'>Lecture des Cartes</p>" +
+        "<div class='grille'>" +
+          "<div class='dom-block'><div class='dh'><span class='di'>" + c1.num + "</span><span class='dn'>Passe - " + c1.nom + "</span></div><p>" + o.passe + "</p></div>" +
+          "<div class='dom-block'><div class='dh'><span class='di'>" + c2.num + "</span><span class='dn'>Present - " + c2.nom + "</span></div><p>" + o.present + "</p></div>" +
+          "<div class='dom-block' style='grid-column:1/-1;'><div class='dh'><span class='di'>" + c3.num + "</span><span class='dn'>Futur - " + c3.nom + "</span></div><p>" + o.futur + "</p></div>" +
+        "</div>" +
+
+        "<p class='section-title'>Influences du Jour</p>" +
+        "<div class='grille'>" +
+          "<div class='dom-block'><div class='dh'><span class='di'>&#128149;</span><span class='dn'>Amour</span></div><p>" + o.amour + "</p></div>" +
+          "<div class='dom-block'><div class='dh'><span class='di'>&#9889;</span><span class='dn'>Travail</span></div><p>" + o.travail + "</p></div>" +
+          "<div class='dom-block'><div class='dh'><span class='di'>&#128184;</span><span class='dn'>Finances</span></div><p>" + o.finances + "</p></div>" +
+          "<div class='dom-block'><div class='dh'><span class='di'>&#127807;</span><span class='dn'>Sante</span></div><p>" + o.sante + "</p></div>" +
+        "</div>" +
+
+        "<div class='message-marco'><div class='ml'>Message de Marco</div><p>" + o.conseil + "</p></div>" +
+        "<button class='retry' id='ora-retry'>&#10022; Nouveau Tirage &#10022;</button>";
+
+      result.style.display = "block";
+      document.getElementById("ora-retry").addEventListener("click", function(){
+        result.style.display = "none";
+        document.getElementById("oracle-form").style.display = "block";
+        var btn = document.getElementById("ora-submit");
+        btn.disabled = true;
+        btn.classList.remove("actif");
+        document.getElementById("ora-instruction").textContent = INSTRUCTIONS[0];
+        for(var i=0;i<3;i++){
+          var ch = document.getElementById("choisie-"+i);
+          ch.classList.remove("visible");
+          var mi = document.getElementById("mini-"+i);
+          mi.style.background = "";
+          mi.innerHTML = "<span style='color:rgba(201,168,224,0.2);font-size:2rem;'>&#10022;</span>";
+        }
+        creerEventail();
+      });
+    })
+    .catch(function(err){
+      clearInterval(loadT);
+      document.getElementById("ora-load").style.display = "none";
+      document.getElementById("oracle-form").style.display = "block";
+      var e = document.getElementById("ora-err");
+      e.textContent = "L oracle est trouble : " + err.message;
+      e.style.display = "block";
+    });
+  });
+})();
+</script>
+
+<script>
+// Auto-resize pour iframe parent
+function sendHeight() {
+  var h = document.documentElement.scrollHeight || document.body.scrollHeight;
+  window.parent.postMessage({ iframeHeight: h }, '*');
+}
+window.addEventListener('load', sendHeight);
+window.addEventListener('resize', sendHeight);
+// Observer les changements de contenu
+var obs = new MutationObserver(sendHeight);
+obs.observe(document.body, { childList: true, subtree: true, attributes: true });
+</script>
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}
+</script>
+</body>
+</html>

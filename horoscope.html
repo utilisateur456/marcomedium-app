@@ -161,6 +161,13 @@ footer a:hover{color:var(--gold-light);}
 </style>
 </head>
 <body>
+<style>
+.back-btn{display:inline-flex;align-items:center;gap:6px;margin:0 auto 18px;padding:0;background:none;border:none;color:rgba(201,168,224,0.55);font-family:Georgia,serif;font-size:0.88rem;cursor:pointer;text-decoration:none;transition:color .25s;width:fit-content;}
+.back-btn:hover{color:#c9a8e0;}
+</style>
+<div style="max-width:700px;margin:0 auto;padding:14px 20px 0;">
+<a class="back-btn" href="index.html">&#8592; Retour</a>
+</div>
 <div class="bg-gradient"></div>
 <div class="bg-grid"></div>
 <div class="particles" id="particles"></div>
@@ -260,7 +267,6 @@ footer a:hover{color:var(--gold-light);}
     <button class="tab" onclick="showPanel('whatsapp')">💬 WhatsApp</button>
     <button class="tab" onclick="showPanel('email')">✉️ E-mail</button>
     <button class="tab" onclick="showPanel('paiement')">💳 Paiement</button>
-    <button class="tab" onclick="showPanel('services')">✦ Services</button>
   </div>
 
   <!-- APPEL -->
@@ -385,53 +391,9 @@ footer a:hover{color:var(--gold-light);}
     </div>
   </div>
 
-
-  <!-- SERVICES -->
-  <div class="panel" id="panel-services">
-    <div class="card" style="margin-bottom:12px;">
-      <h3>✦ Services de Voyance</h3>
-      <p style="margin-bottom:0;">Explorez nos outils de guidance spirituelle, disponibles à tout moment.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
-
-      <a href="horoscope.html" style="text-decoration:none;">
-        <div class="card" style="text-align:center;cursor:pointer;margin-bottom:0;padding:22px 14px;">
-          <div style="font-size:2rem;margin-bottom:10px;">♈</div>
-          <div style="font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold-light);margin-bottom:6px;">L'Horoscope</div>
-          <p style="font-size:0.78rem;margin-bottom:0;">Guidance astrologique du jour ou de la semaine</p>
-        </div>
-      </a>
-
-      <a href="numerologie.html" style="text-decoration:none;">
-        <div class="card" style="text-align:center;cursor:pointer;margin-bottom:0;padding:22px 14px;">
-          <div style="font-size:2rem;margin-bottom:10px;">✦</div>
-          <div style="font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold-light);margin-bottom:6px;">Numérologie</div>
-          <p style="font-size:0.78rem;margin-bottom:0;">Découvrez les vibrations de votre chemin de vie</p>
-        </div>
-      </a>
-
-      <a href="oracle.html" style="text-decoration:none;">
-        <div class="card" style="text-align:center;cursor:pointer;margin-bottom:0;padding:22px 14px;">
-          <div style="font-size:2rem;margin-bottom:10px;">🔮</div>
-          <div style="font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold-light);margin-bottom:6px;">Tirage du Jour</div>
-          <p style="font-size:0.78rem;margin-bottom:0;">3 cartes de l'Oracle de la Triade pour votre journée</p>
-        </div>
-      </a>
-
-      <a href="reves.html" style="text-decoration:none;">
-        <div class="card" style="text-align:center;cursor:pointer;margin-bottom:0;padding:22px 14px;">
-          <div style="font-size:2rem;margin-bottom:10px;">🌙</div>
-          <div style="font-family:'Cinzel',serif;font-size:0.85rem;color:var(--gold-light);margin-bottom:6px;">Rêves</div>
-          <p style="font-size:0.78rem;margin-bottom:0;">Interprétez les symboles cachés de vos rêves</p>
-        </div>
-      </a>
-
-    </div>
-  </div>
-
   <footer>
     <div class="divider"><span>✦</span></div>
-    <p style="margin-bottom:6px;">📍 Vaud, Suisse &nbsp;·&nbsp; <a href="tel:+41218623326">+41 21 862 33 26</a> &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection#ec85828a83ac818d9e8f83818988859981c28f8381"><span class="__cf_email__" data-cfemail="40292e262f002d2132232f2d252429352d6e232f2d">[email&#160;protected]</span></a></p>
+    <p style="margin-bottom:6px;">📍 Vaud, Suisse &nbsp;·&nbsp; <a href="tel:+41218623326">+41 21 862 33 26</a> &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection#ed84838b82ad808c9f8e82808889849880c38e8280"><span class="__cf_email__" data-cfemail="51383f373e113c3023323e3c343538243c7f323e3c">[email&#160;protected]</span></a></p>
     <p>Lun–Ven 9h–19h &nbsp;·&nbsp; © 2025–2026 marcomedium.com</p>
   </footer>
 </div>
@@ -500,7 +462,7 @@ function showPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  ['appel','rdv','whatsapp','email','paiement','services'].forEach((t,i)=>{if(t===id)document.querySelectorAll('.tab')[i].classList.add('active');});
+  ['appel','rdv','whatsapp','email','paiement'].forEach((t,i)=>{if(t===id)document.querySelectorAll('.tab')[i].classList.add('active');});
 }
 function selectMin(btn,min){document.querySelectorAll('.min-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('totalDisplay').textContent=`Total : CHF ${min*2}.–`;}
 const payLinks={twint:'https://go.twint.ch/1/e/tw?tw=acq.ZyMUOjPnQcG6FgTkDskeox9MUbMxm07n60GpwpqeezsfvYNMZxK3gd5UC9GjjxcX.',paypal:'https://www.paypal.com/ncp/payment/VEWS58585DEVC',card:'https://www.paypal.com/ncp/payment/VEWS58585DEVC',iban:'https://www.marcomedium.com/_downloads/271dfb345399f55e5fadf9269fd90954'};
@@ -516,10 +478,4 @@ async function submitRdv(){
 async function submitMail(){
   const n=document.getElementById('mail-nom').value,e=document.getElementById('mail-email').value,q=document.getElementById('mail-question').value;
   if(!n||!e||!q){alert('Veuillez remplir les champs obligatoires.');return;}
-  const body=new URLSearchParams({'form-name':'consultation-email','nom':n,'email':e,'theme':document.getElementById('mail-theme').value,'question':q});
-  try{await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()});}catch(e){}
-  document.getElementById('mail-success').style.display='block';
-}
-</script>
-</body>
-</html>
+  const body=new URLSearchParams({'form-name':'consultation-email','nom':n,'email':e,'theme':document.getElementById('mail-theme').val
